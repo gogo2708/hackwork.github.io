@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contatti — HackWork</title>
+<meta name="description" content="Contatta HackWork a Milano: consulenza gratuita per gestionali, ERP, integrazioni, siti ed e-commerce.">
+<meta property="og:title" content="Contatti — HackWork">
+<meta property="og:description" content="Contatta HackWork a Milano: consulenza gratuita per gestionali, ERP, integrazioni, siti ed e-commerce.">
+<meta property="og:image" content="https://hackwork.space/img/hackwork-og.png">
+<link rel="canonical" href="https://hackwork.space/contatti">
+<link rel="icon" href="/img/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="nav" id="top">
+  <div class="wrap nav__inner">
+    <a href="/" class="logo" aria-label="HackWork home"><img src="/img/logo-mark.png" alt="" class="logo__mark"><span class="logo__text">HACKWORK<small>CORPORATION</small></span></a>
+    <nav class="nav__links" id="menu"><a href="/chi-siamo">Chi siamo</a><a href="/servizi">Servizi</a><a href="/lavori">Lavori</a><a href="/blog">Blog</a><a href="/contatti" class="btn btn--small">Consulenza gratuita</a></nav>
+    <button class="nav__toggle" aria-label="Apri menu" onclick="document.getElementById('menu').classList.toggle('open')"><span></span><span></span></button>
+  </div>
+</header>
+<main>
+<section class="contact contact--page">
+  <div class="wrap contact__grid">
+    <div>
+      <p class="label">Contatti</p>
+      <h1>Trasformiamo le sfide in opportunità.</h1>
+      <p class="contact__lead">Raccontaci il tuo progetto: la prima consulenza è gratuita e ti rispondiamo entro 24 ore lavorative.</p>
+      <ul class="contact__list">
+        <li><small>Telefono</small><a href="tel:+393248861951">+39 324 886 1951</a></li>
+        <li><small>Email</small><a href="mailto:info@hackwork.space">info@hackwork.space</a></li>
+        <li><small>Sede</small><span>Milano, Italia</span></li>
+      </ul>
+      <p class="contact__work"><b>Lavora con noi:</b> mandaci il tuo CV a <a href="mailto:info@hackwork.space?subject=Candidatura">info@hackwork.space</a>.</p>
+    </div>
+    <form class="form" id="contactForm">
+  <label>Nome e cognome<input name="nome" required placeholder="Mario Rossi" autocomplete="name"></label>
+  <label>Azienda<input name="azienda" placeholder="Nome azienda" autocomplete="organization"></label>
+  <label>Email<input type="email" name="email" required placeholder="mario@azienda.it" autocomplete="email"></label>
+  <label>Telefono <span class="opt">(facoltativo)</span><input type="tel" name="telefono" placeholder="+39 ..." autocomplete="tel"></label>
+  <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <label>Di cosa hai bisogno?
+    <select name="servizio">
+      <option>Gestionale / ERP su misura</option><option>Analisi dati e AI</option><option>Integrazione di sistemi</option>
+      <option>Sito web / E-commerce</option><option>Consulenza IT / elettrica</option><option>Formazione e assistenza</option><option>Altro</option>
+    </select>
+  </label>
+  <label>Messaggio<textarea name="messaggio" rows="4" placeholder="Raccontaci in breve il progetto"></textarea></label>
+  <button class="btn" type="submit">Invia richiesta</button>
+  <p class="form__note" id="formNote">Rispondiamo entro 24 ore lavorative.</p>
+</form>
+  </div>
+</section>
+</main>
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <a href="/" class="logo"><img src="/img/logo-mark.png" alt="" class="logo__mark"><span class="logo__text">HACKWORK<small>CORPORATION</small></span></a>
+    <nav><a href="/chi-siamo">Chi siamo</a><a href="/servizi">Servizi</a><a href="/lavori">Lavori</a><a href="/blog">Blog</a><a href="/contatti">Contatti</a></nav>
+    <p class="footer__claim">Facciamo crescere la tua azienda, una soluzione alla volta.</p>
+    <p>HackWork Corporation · Milano · <a href="tel:+393248861951">+39 324 886 1951</a> · <a href="mailto:info@hackwork.space">info@hackwork.space</a> · P.IVA 14118980961 · © 2026</p>
+  </div>
+</footer>
+<script src="/js/site.js" defer></script>
+</body>
+</html>

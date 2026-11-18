@@ -14,11 +14,28 @@ const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'info@hackwork.space';
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
-// ─── File pubblici del sito (solo questi: niente server.js, data/, ecc.) ───
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/style.css', (req, res) => res.sendFile(path.join(__dirname, 'style.css')));
-app.use('/img', express.static(path.join(__dirname, 'img'), { maxAge: '7d' }));
-app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'img', 'logo-mark.png')));
+// ─── Redirect dai vecchi indirizzi WordPress (link già condivisi e Google) ───
+const OLD = {
+  '/chi-siamo/': '/chi-siamo', '/servizi/': '/servizi', '/contatti/': '/contatti', '/references': '/lavori', '/references/': '/lavori',
+  '/blog/': '/blog', '/author/admin/': '/blog', '/feed/': '/blog',
+  '/2025/08/09/servizio-clienti-e-comunicazione-il-vero-ostacolo-alla-crescita-aziendale/': '/blog/servizio-clienti-e-comunicazione-il-vero-ostacolo-alla-crescita-aziendale',
+  '/2025/03/04/risparmio-aziendale-strategie-e-dati-per-ottimizzare-i-costi-senza-rinunciare-alla-crescita/': '/blog/risparmio-aziendale-strategie-e-dati-per-ottimizzare-i-costi-senza-rinunciare-alla-crescita',
+  '/2025/03/04/digitalizzazione-aziendale-come-trasformare-la-tua-impresa-per-il-successo/': '/blog/digitalizzazione-aziendale-come-trasformare-la-tua-impresa-per-il-successo',
+  '/2025/02/09/ciao-mondo/': '/blog/ottimizzazione-aziendale-gestionali',
+};
+app.use((req, res, next) => {
+  if (OLD[req.path]) return res.redirect(301, OLD[req.path]);
+  if (req.path.startsWith('/wp-') || /^\/20\d\d\//.test(req.path)) return res.redirect(301, '/blog');
+  // /pagina/ → /pagina
+  if (req.path.length > 1 && req.path.endsWith('/')) return res.redirect(301, req.path.slice(0, -1) + (req.url.slice(req.path.length) || ''));
+  next();
+});
+
+// ─── File pubblici del sito: solo la cartella public/ (server.js, data/ ecc. restano privati) ───
+const PUBLIC = path.join(__dirname, 'public');
+app.get('/blog', (req, res) => res.sendFile(path.join(PUBLIC, 'blog.html')));
+app.use(express.static(PUBLIC, { extensions: ['html'], redirect: false, maxAge: '1h', setHeaders: (res, p) => { if (/\.(jpe?g|png|webp|svg)$/.test(p)) res.setHeader('Cache-Control', 'public, max-age=604800'); } }));
+app.get('/favicon.ico', (req, res) => res.sendFile(path.join(PUBLIC, 'img', 'logo-mark.png')));
 
 // ─── Archivio contatti ───
 function readContacts() {
@@ -137,6 +154,6 @@ app.get('/admin/contatti.csv', requireAdmin, (req, res) => {
   res.set('Content-Type', 'text/csv; charset=utf-8').set('Content-Disposition', 'attachment; filename="contatti-hackwork.csv"').send('﻿' + csv);
 });
 
-app.use((req, res) => res.redirect('/'));
+app.use((req, res) => res.status(404).sendFile(path.join(PUBLIC, '404.html')));
 
 app.listen(PORT, () => console.log(`HackWork online sulla porta ${PORT}`));
