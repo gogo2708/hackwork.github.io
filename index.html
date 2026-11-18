@@ -261,6 +261,8 @@
       <label>Nome e cognome<input name="nome" required placeholder="Mario Rossi"></label>
       <label>Azienda<input name="azienda" placeholder="Nome azienda"></label>
       <label>Email<input type="email" name="email" required placeholder="mario@azienda.it"></label>
+      <label>Telefono <span class="opt">(facoltativo)</span><input type="tel" name="telefono" placeholder="+39 ..."></label>
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <label>Di cosa hai bisogno?
         <select name="servizio">
           <option>Gestionale / ERP su misura</option>
@@ -273,7 +275,7 @@
       </label>
       <label>Messaggio<textarea name="messaggio" rows="4" placeholder="Raccontaci in breve il progetto"></textarea></label>
       <button class="btn" type="submit">Invia richiesta</button>
-      <p class="form__note">Rispondiamo entro 24 ore lavorative.</p>
+      <p class="form__note" id="formNote">Rispondiamo entro 24 ore lavorative.</p>
     </form>
   </div>
 </section>
@@ -292,13 +294,25 @@
 </footer>
 
 <script>
-// Il modulo apre il programma di posta con i dati compilati.
-// Per ricevere i messaggi senza client email, collegarlo a Formspree, Netlify Forms o al backend.
-document.getElementById('contactForm').addEventListener('submit', function (e) {
+const form = document.getElementById('contactForm');
+const note = document.getElementById('formNote');
+form.addEventListener('submit', async function (e) {
   e.preventDefault();
-  const d = new FormData(this);
-  const body = `Nome: ${d.get('nome')}\nAzienda: ${d.get('azienda')}\nEmail: ${d.get('email')}\nServizio: ${d.get('servizio')}\n\n${d.get('messaggio')}`;
-  location.href = 'mailto:info@hackwork.space?subject=' + encodeURIComponent('Richiesta consulenza — ' + d.get('servizio')) + '&body=' + encodeURIComponent(body);
+  const btn = form.querySelector('button[type=submit]');
+  const data = Object.fromEntries(new FormData(form));
+  btn.disabled = true; btn.textContent = 'Invio in corso…';
+  try {
+    const r = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || 'Invio non riuscito');
+    form.reset();
+    form.classList.add('form--sent');
+    note.textContent = 'Grazie! Abbiamo ricevuto la tua richiesta: ti rispondiamo entro 24 ore lavorative.';
+    btn.textContent = 'Richiesta inviata ✓';
+  } catch (err) {
+    note.innerHTML = (err.message || 'Invio non riuscito') + ' — oppure scrivici a <a href="mailto:info@hackwork.space">info@hackwork.space</a>.';
+    btn.disabled = false; btn.textContent = 'Invia richiesta';
+  }
 });
 document.querySelectorAll('#menu a').forEach(a => a.addEventListener('click', () => document.getElementById('menu').classList.remove('open')));
 </script>

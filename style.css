@@ -213,3 +213,8 @@ h3{font-family:var(--f-head);font-weight:600;font-size:22px;letter-spacing:-.01e
   .footer nav{justify-content:flex-start;flex-wrap:wrap}
   .about::after{display:none}
 }
+.form .opt{color:#5A6470;font-weight:400}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.form__note a{color:var(--lime)}
+.form--sent .form__note{color:var(--lime);font-size:15px}
+.form button:disabled{opacity:.7;cursor:default;transform:none}
